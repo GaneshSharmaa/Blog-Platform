@@ -47,6 +47,22 @@ posts: list[dict] = [
         "date_posted": "May 25, 2026",
         "profile_pic": "/static/profile-picture/you.jpg"
     },
+    {
+        "id": 5,
+        "author": "Narendra Modi",
+        "title": "India 2047 — A vision",
+        "content": "The future I see for this country, I think is achievable by 2047.",
+        "date_posted": "April 30, 2026",
+        "profile_pic": "/static/profile-picture/you.jpg"
+    },
+    {
+        "id": 6,
+        "author": "Will Hunting",
+        "title": "For God sake, please stop living inside your head",
+        "content": "Stop living inside your head, and it's not your fault for not knowing earlier that time could only teach you. Whatever happened, happened, now live and cherish the present, present is what only exists, so live it.",
+        "date_posted": "May 25, 2026",
+        "profile_pic": "/static/profile-picture/you.jpg"
+    },
 ]
 
 @app.get("/", include_in_schema = False)

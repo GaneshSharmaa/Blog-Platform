@@ -200,6 +200,16 @@ app.mount(
 
 This tells the browser to go inside the `static/` folder.
 
+The `mount()` method, makes a computer directory into a URL.
+
+Let's understand the arguments of this method:
+- `/static` → This is URL by which the server access the files.
+- `StaticFiles(directory = "static")` → Tells to look into this folder.
+- `name = "static"` → This is an internal label. This is for FastAPI to add in the `url_for`.
+
+So, what this actually means is:\
+"Whenever browser requests `/static/...`, go look inside my `static/` folder, and refer to this mounted folder internally as `'static'`."
+
 When browser asks about:
 ```python
 /static/css/main.css

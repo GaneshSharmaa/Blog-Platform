@@ -21,6 +21,7 @@ posts: list[dict] = [
         "title": "Getting started with AI/ML",
         "content": "Stay tuned!",
         "date_posted": "May 27, 2026",
+        "profile_pic": "/static/profile-picture/you.jpg"
     },
     {
         "id": 2,
@@ -28,6 +29,7 @@ posts: list[dict] = [
         "title": "Python increase day-by-day",
         "content": "Python is a great language.",
         "date_posted": "May 27, 2026",
+        "profile_pic": "/static/profile-picture/you.jpg"
     },
     {
         "id": 3,
@@ -35,6 +37,7 @@ posts: list[dict] = [
         "title": "Increasing Global Warming — El Nino",
         "content": "You might have noticed the heat now in summers.",
         "date_posted": "May 24, 2026",
+        "profile_pic": "/static/profile-picture/you.jpg"
     },
     {
         "id": 4,
@@ -42,6 +45,7 @@ posts: list[dict] = [
         "title": "I love SpiderMan",
         "content": "Spiddy, you're a hero! I swear to God, for real!",
         "date_posted": "May 25, 2026",
+        "profile_pic": "/static/profile-picture/you.jpg"
     },
 ]
 

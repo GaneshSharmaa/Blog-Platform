@@ -76,6 +76,25 @@ body {
     font-size: 0.85rem;
 }
 
+/* Author avatar inside badge */
+.post-header {
+    gap: 0.75rem;
+}
+
+.content-section .post-avatar {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.post-author {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #212529;
+}
+
 /* Content */
 
 .article-content {

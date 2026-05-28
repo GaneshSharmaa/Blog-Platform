@@ -19,16 +19,18 @@
 
 <article class="content-section">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="post-header d-flex align-items-center mb-3">
+        <img
+            src="{{ post.profile_pic if post.profile_pic else ('https://ui-avatars.com/api/?name=' + post.author.replace(' ', '+') + '&background=random&size=128') }}"
+            alt="{{ post.author }}'s avatar"
+            class="post-avatar me-3"
+            style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;"
+        >
 
-        <span class="badge bg-primary author-badge">
-            {{ post.author }}
-        </span>
-
-        <small class="article-meta">
-            {{ post.date_posted }}
-        </small>
-
+        <div class="post-meta">
+            <div class="post-author small text-muted">{{ post.author }}</div>
+            <small class="article-meta">{{ post.date_posted }}</small>
+        </div>
     </div>
 
     <h2 class="h3 fw-bold mb-3">

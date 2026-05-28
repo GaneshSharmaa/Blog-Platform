@@ -50,7 +50,9 @@ def home(request: Request):
         name = "home.html",
         context = {
             "posts": posts,
-            "title": "Home"
+            "title": "Home",
+            "limit": 5,
+            "has_more": True
         }
     )
 

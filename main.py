@@ -1,10 +1,14 @@
 # importing the required modules
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request
 # from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 # initializing the app
 app = FastAPI()
+
+# static folder access to the FastAPI
+app.mount("/static", StaticFiles(directory = "static"), name = "static")
 
 # creating a HTML template
 templates = Jinja2Templates(directory = "./templates")
@@ -50,7 +54,7 @@ def home(request: Request):
         name = "home.html",
         context = {
             "posts": posts,
-            "title": "Home",
+            "title": "FastAPI Blog",
             "limit": 5,
             "has_more": True
         }

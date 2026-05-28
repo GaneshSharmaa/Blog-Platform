@@ -75,6 +75,8 @@ This way by using the `include_in_schema` parameter, this route won't be added i
 
 ### Jinja2 — For HTML Templates
 
+FastAPI functions return JSON, but we don't want that, instead we want beautiful HTML pages, so we use _Jinja2 Templates_ for it.
+
 **_Jinja2_** is used for templating HTML. Now, we are no longer using static plain HTML, we are using dynamic HTML.
 
 _Jinja2_ lets Python inject data into the HTML file.
@@ -143,3 +145,115 @@ Then, `{% endfor %}` → closes the loop.
 And, `{# #}` → comments.
 
 So, basically this weird looking syntax in HTML is just Jinja2 template syntax, which looks like Python and also behaves similarly.
+
+------
+
+### Folder structure and what it means
+
+First, let's talk about the folder structure and why it is the it is?
+
+### `home.html` — Page Content
+
+This is the actual page content. This is the main HTML file that exists in the `templates` folder.
+
+And, by using `{% extends "layout.html" %}`, we tell it to use `layout.html` as the parent template.
+
+So, `home.html` inherits navbar, CSS, Bootstrap, overall structure from `layout.html`.
+
+### `layout.html` — The Base Template
+
+And, `layout.html` is the master design of your website. Things like:
+- navbar
+- footer
+- Bootstrap
+- Global CSS
+
+Stuff that should appear on every page. Instead of repeating this on every HTML file, we write it once in `layout.html`.
+
+And, by using:
+```python
+{% block content %}
+...
+{% endblock content %}
+```
+
+This, means that "this area will change depending on the page."
+
+### Static Files — `static/` folder
+
+This is very important as websites need CSS, JavaScript, images, icons, all along the website on every page. These are called as _static files_, because they don't change dynamically.
+
+This is done, because it helps avoid writing 1000 lines of CSS, for each and every HTML file.
+
+The `main.py` access this `static/` directory by using:
+```python
+# importing the module
+from fastapi.staticfiles import StaticFiles
+
+# static folder access to the FastAPI
+app.mount(
+    "/static",
+    StaticFiles(directory = "static"),
+    name = "static"
+)
+```
+
+This tells the browser to go inside the `static/` folder.
+
+When browser asks about:
+```python
+/static/css/main.css
+```
+
+FastAPI looks here:
+```python
+project/static/css/main.css
+```
+and, sends it.
+
+And, the reason we mount the entire `static/` folder is then it can access the JS, images, means everything that's needed.
+
+Now, for linking this:
+```python
+static/css/main.css
+```
+
+We, go to `layout.html` and add:
+```python
+<link
+rel = "stylesheet"
+href = "{{ url_for("static", path = "/css/main.css") }}
+>
+```
+This loads the CSS file.
+
+And, the reason we use `url_for` in above code, is it safer, if path changes later, then FastAPI updates the URL automatically.
+
+-----
+
+### Understanding the flow
+
+```
+User visits 'localhost:8000'
+        ↓
+FastAPI route runs 'def home()'
+        ↓
+'posts' sends the data to 'home.html'
+        ↓
+'home.html' injects the content into 'layout.html'
+        ↓
+CSS is loaded from 'static/css/main.css'
+        ↓
+Bootstrap styles the UI
+        ↓
+Browser shows the final webpage.
+```
+
+### Basic understanding
+
+```
+'layout.html' → website skeleton
+'home.html'   → page content
+'static/'     → styling + assets
+FastAPI       → server connecting everything
+```

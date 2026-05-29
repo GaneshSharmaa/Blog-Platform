@@ -267,3 +267,8 @@ Browser shows the final webpage.
 'static/'     → styling + assets
 FastAPI       → server connecting everything
 ```
+
+-------
+
+### Path parameters — validation & error handling
+

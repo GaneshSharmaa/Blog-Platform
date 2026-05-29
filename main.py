@@ -1,6 +1,9 @@
 # importing the required modules
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, status, HTTPException
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 # from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
@@ -65,6 +68,7 @@ posts: list[dict] = [
     },
 ]
 
+# -------- HOME PAGE -------- 
 @app.get("/", include_in_schema = False, name = "home")
 @app.get("/posts", include_in_schema = False, name = "posts")
 def home(request: Request):
@@ -80,6 +84,7 @@ def home(request: Request):
         }
     )
 
+# -------- POST PAGE -------- 
 @app.get("/posts/{post_id}", include_in_schema = False)
 def post_page(request: Request, post_id: int):
     for post in posts:
@@ -94,11 +99,12 @@ def post_page(request: Request, post_id: int):
             )
     raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Post was not found!")
 
+# -------- ALL POST API PAGE -------- 
 @app.get("/api/posts")
 def get_posts():
     return posts
 
-
+# -------- POST API PAGE -------- 
 @app.get("/api/posts/{post_id}")
 def get_post(post_id: int):
     for post in posts:

@@ -97,7 +97,18 @@ def post_page(request: Request, post_id: int):
                     "title": post["title"][:50],
                 }
             )
-    raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Post was not found!")
+    return templates.TemplateResponse(
+        request=request,
+        name="error.html",
+        context={
+            "request": request,
+            "error_code": 404,
+            "title": "Post Not Found",
+            "error_message":
+                "This post does not exist."
+        },
+        status_code=404
+    )
 
 # -------- ALL POST API PAGE -------- 
 @app.get("/api/posts")

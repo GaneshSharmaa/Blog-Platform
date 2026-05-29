@@ -122,3 +122,54 @@ def get_post(post_id: int):
         if post.get("id") == post_id:
             return post
     raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Post was not found!")
+
+# ------ REQUEST VALIDATION ERROR HANDLING ------
+# this handles the wrong input type, missing data, validation failures
+@app.exception_handler(RequestValidationError)
+def validation_exception_handler(request: Request, exception: RequestValidationError):
+    if request.url.path.startswith("/api"):
+        return JSONResponse(
+            status_code = status.HTTP_422_UNPROCESSABLE_CONTENT,
+            content = {
+                "detail": exception.errors()
+            }
+        )
+    return templates.TemplateResponse(
+        request = request,
+        name = "error.html",
+        context = {
+            "error_code": status.HTTP_422_UNPROCESSABLE_CONTENT,
+            "error_title": status.HTTP_422_UNPROCESSABLE_CONTENT,
+            "error_message": "Invalid request. Please check your input and try again."
+        },
+        status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
+    )
+
+# ------ GENERAL ERROR HANDLING ------
+# this handles the page not found exceptions
+@app.exception_handler(StarletteHTTPException)
+def general_exception_handler(request: Request, exception: StarletteHTTPException):
+    message = (
+        exception.detail
+        if exception.detail
+        else "An error occured. Please check your request and try again."
+    )
+
+    if request.url.path.startswith("/api"):
+        return JSONResponse(
+            status_code = exception.status_code,
+            content = {
+                "detail": message
+            }
+        )
+    
+    return templates.TemplateResponse(
+        request = request,
+        name = "error.html",
+        context = {
+            "error_code": exception.status_code,
+            "error_title": exception.status_code,
+            "error_message": message
+        },
+        status_code = exception.status_code
+    )

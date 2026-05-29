@@ -98,16 +98,16 @@ def post_page(request: Request, post_id: int):
                 }
             )
     return templates.TemplateResponse(
-        request=request,
-        name="error.html",
-        context={
+        request = request,
+        name = "error.html",
+        context = {
             "request": request,
             "error_code": 404,
             "title": "Post Not Found",
             "error_message":
                 "This post does not exist."
         },
-        status_code=404
+        status_code = 404
     )
 
 # -------- ALL POST API PAGE -------- 

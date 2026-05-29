@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="text-center py-5">
+
+    <!-- Error Code -->
+    <h1
+        class="display-1 fw-bold text-danger"
+    >
+        {{ error_code }}
+    </h1>
+
+    <!-- Error Title -->
+    <h2 class="fw-bold mb-3">
+        {{ error_title }}
+    </h2>
+
+    <!-- Message -->
+    <p class="text-muted fs-5 mb-4">
+        {{ error_message }}
+    </p>
+
+    <!-- Back Button -->
+    <a
+        href="/"
+        class="btn btn-primary btn-lg"
+    >
+        Go Back Home
+    </a>
+
+</div>
+
+{% endblock content %}

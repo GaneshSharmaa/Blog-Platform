@@ -35,7 +35,7 @@
 
     <h2 class="h3 fw-bold mb-3">
 
-        <a href="#" class="article-title">
+        <a href="{{ url_for('post_page', post_id = post.id) }}" class="article-title">
             {{ post.title }}
         </a>
 

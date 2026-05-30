@@ -156,7 +156,7 @@ So, basically this weird looking syntax in HTML is just Jinja2 template syntax, 
 
 ### Folder structure and what it means
 
-First, let's talk about the folder structure and why it is the it is?
+First, let's talk about the folder structure and why it is the way it is?
 
 ### `home.html` — Page Content
 

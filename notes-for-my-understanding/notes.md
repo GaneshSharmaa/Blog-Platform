@@ -98,14 +98,20 @@ And now we will create a template response.
 from fastapi.templating 
 @app.get("/")
 def home(request: Request):
-    return templates.TemplateResponse(request, name = "home.html", context = {"posts": posts})
+    return templates.TemplateResponse(
+        request = request,
+        name = "home.html",
+        context = {
+            "posts": posts
+        }
+	)
 ```
 
 `TemplateResponse()` needs `request` as its parameter, even though it is not used.
 
 `TemplateResponse()` helps in returning HTML page, by default the FastAPI returns _JSON_.
 
-`name = "home.html` parameter tells the FastAPI to render the HTML file that is provided into the `name` parameter.
+`name = "home.html"` parameter tells the FastAPI to render the HTML file that is provided into the `name` parameter.
 
 `context = {"posts": posts}` this sends the Python data into the HTML.
 
@@ -271,4 +277,44 @@ FastAPI       → server connecting everything
 -------
 
 ### Path parameters — validation & error handling
+
+The routing or the URL is managed by the decorator:
+```python
+@app.get("/posts/{post_id}")
+```
+This decorator handles the URL and routing of the pages.
+
+The decorator registers which URL and HTTP method should trigger the function.
+
+While the function:
+```python
+def post_page(request: Request, post_id: int):
+```
+This function controls the behavior and logic of the page.
+
+So, by going to the route, a certain function gets triggered.
+
+And, in routing `{post_id}`, you see this tells that, this variable is dynamic means it can change, by providing the value in the browser.
+
+------
+
+### Raising the HTTP exception
+
+There are two ways by which exceptions could be raised, first one by custom error HTML page.
+
+And, second one by the JSON request.
+
+Let's first see the raising HTML error page:
+```python
+return templates.TemplateResponse(
+	request = request,
+	name = "error.html",
+	context = {
+		"request": request,
+		"error_code": 404,
+		"title": "Post not found!",
+		"error_message": "This post does not exists."
+	},
+	status_code = 404
+)
 

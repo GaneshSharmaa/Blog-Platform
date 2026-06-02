@@ -114,12 +114,14 @@ def post_page(request: Request, post_id: int):
     )
 
 # -------- ALL POST API PAGE -------- 
+# returns list of posts, as response
 @app.get("/api/posts", response_model = list[PostResponse])
 def get_posts():
     return posts
 
-# -------- POST API PAGE -------- 
-@app.get("/api/posts/{post_id}")
+# -------- POST API PAGE --------
+# returns single post, as response
+@app.get("/api/posts/{post_id}", reponse_model = PostResponse)
 def get_post(post_id: int):
     for post in posts:
         if post.get("id") == post_id:
@@ -176,3 +178,22 @@ def general_exception_handler(request: Request, exception: StarletteHTTPExceptio
         },
         status_code = exception.status_code
     )
+
+# --------- CREATE POST ---------
+@app.post(
+    "/api/posts",
+    response_model = PostResponse,
+    status_code = status.HTTP_201_CREATED
+)
+def create_post(post: PostCreate):
+    new_id = max(p["id"] for p in posts) + 1 if posts else 1
+    new_post = {
+        "id": new_id,
+        "author": post.author,
+        "title": post.title,
+        "content": post.content,
+        "date_posted": "June 02, 2026"
+    }
+    posts.append(new_post)
+    return new_post
+

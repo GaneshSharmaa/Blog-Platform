@@ -7,6 +7,9 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 # from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+# importing local modules from other files
+from schemas import PostCreate, PostResponse
+
 # initializing the app
 app = FastAPI()
 

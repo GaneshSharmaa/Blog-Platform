@@ -114,7 +114,7 @@ def post_page(request: Request, post_id: int):
     )
 
 # -------- ALL POST API PAGE -------- 
-@app.get("/api/posts")
+@app.get("/api/posts", response_model = list[PostResponse])
 def get_posts():
     return posts
 

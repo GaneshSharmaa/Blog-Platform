@@ -121,7 +121,7 @@ def get_posts():
 
 # -------- POST API PAGE --------
 # returns single post, as response
-@app.get("/api/posts/{post_id}", reponse_model = PostResponse)
+@app.get("/api/posts/{post_id}", response_model = PostResponse)
 def get_post(post_id: int):
     for post in posts:
         if post.get("id") == post_id:

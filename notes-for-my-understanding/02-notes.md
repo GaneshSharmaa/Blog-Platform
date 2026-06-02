@@ -36,7 +36,7 @@ class PostCreate(PostBase):
 
 Here, we inherited the attributes from the `PostBase` Pydantic model class into the `PostCreate` model class.
 
-And, Pydantic only accepts, JSON format data, that looks like dictionary, so in order to make it accept data in form of attribute, we use:
+And, Pydantic only reads, JSON format data, that looks like dictionary, so in order to make it read data in form of attribute/object we use:
 
 ```python
 from pydantic import BaseModel, ConfigDict, Field
@@ -48,5 +48,5 @@ class PostResponse(PostBase):
     date_posted: str
 ```
 
-`ConfigDict()` is used to make the Pydantic model class accept values from attributes too, otherwise it only accepts the JSON, dictionary-like data only.
+`ConfigDict()` is used to make the Pydantic model class read values from attributes/objects too, otherwise it only reads the JSON, dictionary-like data.
 

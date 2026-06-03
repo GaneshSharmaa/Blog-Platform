@@ -56,9 +56,90 @@ class PostResponse(PostBase):
 
 ----
 
-### Returning a formatted response
+### Pydantic schema design for data modeling
 
-If you want to return a response in a particular format, then `response_model` parameter is used in the _route decorator_.
+First, let's get clear on what is _schema_,\
+A schema defines what data is expected, what data is allowed, what data should be returned.
+
+Think of schema like a blueprint for data.
+
+With Pydantic schemas, data automatically is validated.
+
+And we use `Field` for field validation.
+
+```python
+from pydantic import Field, BaseModel
+
+class PostBase(BaseModel):
+    title: str = Field(
+        min_length = 5
+        max_length = 100
+    )
+    content: str = Field(
+        min_length = 20
+        max_length = 1500
+    )
+```
+
+And, `BaseModel` that we inherit from, provides the:
+
+* Validation
+* Serialization
+* Type conversion
+* JSON support
+* Swagger document support
+
+Without, the `BaseModel`, the class is just another Python class, but it is Pydantic model.
+
+And, `Field()`, we use is for validation rules.
+
+### Schema inheritance
+
+In order to avoid repeating fields, we use schema inheritance.
+
+For example,
+
+```python
+class PostCreate(PostBase):
+    pass
+```
+
+Here, we inherited the schema from the `PostBase` Pydantic model into the `PostCreate` model.
+
+-----
+
+### Request validation / input validation
+
+For validating input data, we use, in the function:
+
+```python
+@app.post("/posts")
+def create_post(post: PostCreate):
+    new_post = {
+        "author": post.author,
+        "title": post.title,
+        "content": post.content,
+        "date_posted": "June 02, 2026"
+    }
+    posts.append(new_post)
+    return new_post
+```
+
+Flow of the request/input validation:
+
+```plaintext
+Client sends JSON
+    ↓
+Pydantic validation
+    ↓
+Route executes
+```
+
+------
+
+### Response validation / output validation
+
+If you want to return a response in a particular format, then `response_model` parameter is used in the _route decorator_. This is called _Response Validation_ or _Output Validation_.
 
 For example,
 
@@ -70,55 +151,87 @@ def get_posts():
 
 `response_model` says before sending data to the client, make sure every item looks like `PostResponse`.
 
-What this says, is that, return a list of posts, where each post follows the PostResponse schema.
+What this says, is that, return a _list of posts_, where each post follows the `PostResponse` schema. Meaning return a list where every item follows `PostResponse`.
 
-Another example where this is useful:
+`response_model` parameter defines response structure.
+
+Flow of the response/output validation:
+
+```plaintext
+Route returns data
+    ↓
+Pydantic validates response
+    ↓
+Client receives validated JSON
+```
+
+Using this response/output validation, benefits us by removing unwanted fields, prevents invalid responses, and improves API docs.
+
+-----
+
+### Example of response/output validation:
+
+Returned by route:
 
 ```python
-# post data in form of list of dictionaries
-posts = [
-    {
-        "id": 1,
-        "title": "AI",
-        "content": "Learning FastAPI",
-        "secret_admin_note": "Don't show this"
-    }
-]
+{
+    "id": 1,
+    "title": "FastAPI",
+    "secret": "hidden"
+}
+```
 
-# schema
+Response model:
+
+```python
 class PostResponse(BaseModel):
     id: int
     title: str
-    content: str
 ```
 
-What you'll get as output is:
+Client receives:
 
 ```python
-[
-    {
-        "id": 1,
-        "title": "AI",
-        "content": "Learning FastAPI"
-    }
-]
+{
+    "id": 1,
+    "title": "FastAPI"
+}
 ```
 
-As you noticed, `secret_admin_note` from post data is not returned in the output.
-
-This is what schemas used for.
+`secret` removed automatically, because it was not in the response model.
 
 ----
 
-For validating incoming data, we use, in the function:
+### ConfigDict
 
 ```python
-post: PostCreate
+from pydantic import ConfigDict
+
+class PostResponse(PostBase):
+
+    model_config = ConfigDict(
+        from_attributes=True
+    )
 ```
 
-For validating outgoing/response data, we use this, in the route decorator.
+The purpose is it allows Pydantic model for reading object attributes. Useful for database ORM and objects.
 
-```python
-response_model = PostResponse
+-----
+
+### Entire Pydantic model flow
+
+```plaintext
+Client Request
+       ↓
+PostCreate Schema
+(Input Validation)
+       ↓
+Route Function
+(Business Logic)
+       ↓
+PostResponse Schema
+(Output Validation)
+       ↓
+Client Response
 ```
 

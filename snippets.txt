@@ -14,3 +14,19 @@ posts: list[dict] = [
         "date_posted": "May 27, 2026",
     },
 ]
+
+# # get_user_posts
+# @app.get("/api/users/{user_id}/posts", response_model = list[PostResponse])
+# def get_user_posts(user_id:int, db: Annotated[Session, Depends(get_id)]):
+#     result = db.execute(select(models.User).where(models.User.id == user_id))
+#     user = result.scalars().first()
+#     if not user:
+#         raise HTTPException(
+#             status_code = status.HTTP_404_NOT_FOUND,
+#             detail = "User not found"
+#         )
+    
+#     result = db.execute(select(models.Post).where(models.Post.user_id == user_id))
+#     posts = result.scalars().all()
+#     return posts
+

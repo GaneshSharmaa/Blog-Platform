@@ -1,14 +1,20 @@
 # importing the required modules
 from fastapi.staticfiles import StaticFiles
-from fastapi import FastAPI, Request, status, HTTPException
+from fastapi import FastAPI, Request, status, HTTPException, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 # from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import select
+from sqlalchemy.orm import session
 
 # importing local modules from other files
 from schemas import PostCreate, PostResponse
+import models
+from database import Base, engine, get_db
+
+from typing import Annotated
 
 # initializing the app
 app = FastAPI()

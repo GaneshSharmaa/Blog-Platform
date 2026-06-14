@@ -137,6 +137,8 @@ Session closes
 
 ### SQLAlchemy ORM
 
+**ORM → Object Relational Mapping**
+
 Creating a new file `models.py`, this file is for creating SQLAlchemy ORM model file.
 
 ```plaintext
@@ -190,3 +192,71 @@ In `sqlalchemy`, `DateTime`, `ForeignKey`, `Integer`, `String`, `Text` represent
 
 `relationship` is used for connecting tables.
 
+### Step #2: Creating user table
+
+```python
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key = True, index = True)
+    username: Mapped[str] = mapped_column(String(50), unique = True, nullable = False)
+    email: Mapped[str] = mapped_column(String(120), unique = True, nullable = False)
+    image_file: Mapped[str | None] = mapped_column(String(200), nullable = True, default = None)
+    
+    posts: Mapped[list[Post]] = relationship(back_populates = "author")
+```
+
+`Base` is the class in the `database.py` file and here, we directly inherited it.
+
+`__tablename__` means create a new table named `users`.
+
+`id...` means this field stores an integer and `mapped_column()` tells to create database column, where `primary_key = True` means this is a primary key. `index = True` means creating an index for this column.
+
+`String(50)` means maximum 50 characters.
+
+`unique = True` means no duplicate values allowed, database rejects duplicates.
+
+`nullable = False` means this cannot be empty.
+
+In `image_file: Mapped[str | None]` means it could be anything a _string_ or _None_. `default = None` means if nothing provided store _None_.
+
+In `posts: Mapped[list[Post]]` this means that it accepts multiple posts. This tells us that a user can have multiple posts.
+
+So, if sometypes `user.posts` then a list of posts will be returned.
+
+And, `relationship()` connects `user.posts` to the `post.author`.
+
+`@property` this converts a method into an attribute. So, earlier you'd write `user.image_path()` and after you'd write `user.image_path`. Looks like variable, but runs a function.
+
+In `content:...` line, the `Text` means this could be long, so we wrote `Text` and not `String(...)`.
+
+And, `ForeignKey("users.id")` means every post belongs to a user.
+
+And in `author:...`, `Mapped[User]`, means each post has exactly one author. And, `back_populates = "posts"` links back to `User.posts`
+
+This creates two-way connection.
+
+### Visual representation
+
+```plaintext
+users table
++----+----------+----------------+
+| id | username | email          |
++----+----------+----------------+
+| 1  | Ganesh   | abc@gmail.com  |
+| 2  | John     | xyz@gmail.com  |
++----+----------+----------------+
+
+             ▲
+             │
+             │ Foreign Key
+             │
+posts table
++----+----------------+---------+
+| id | title          | user_id |
++----+----------------+---------+
+| 1  | FastAPI        |    1    |
+| 2  | SQLAlchemy     |    1    |
+| 3  | Python Tips    |    2    |
++----+----------------+---------+
+```

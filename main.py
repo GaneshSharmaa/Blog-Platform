@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 
 # importing local modules from other files
-from schemas import PostCreate, PostResponse, UserCreate, UserResponse
+from schemas import PostCreate, PostResponse, UserCreate, UserResponse, PostUpdate
 import models
 from database import Base, engine, get_db
 
@@ -208,6 +208,18 @@ def get_posts(db: Annotated[Session, Depends(get_db)]):
     result = db.execute(select(models.Post))
     posts = result.scalars().all()
     return posts
+
+# ------ FOR GETTING INDIVIDUAL POST PAGE ------
+@app.get("/api/posts/{post_id}", response_model = PostResponse)
+def get_post(post_id: int, db: Annotated[Session, Depends(get_db)]):
+    result = db.execute(select(models.Post).where(models.Post.id == post_id))
+    post = result.scalars().first()
+    if post:
+        return post
+    raise HTTPException(
+        status_code = status.HTTP_404_NOT_FOUND,
+        detail = "Post not found"
+    )
 
 # ------ REQUEST VALIDATION ERROR HANDLING ------
 # this handles the wrong input type, missing data, validation failures

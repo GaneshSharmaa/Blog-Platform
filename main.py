@@ -221,6 +221,7 @@ def get_post(post_id: int, db: Annotated[Session, Depends(get_db)]):
         detail = "Post not found"
     )
 
+# ----------- UPDATING THE POST -----------
 @app.put(
     path = "/api/posts/{post_id}",
     response_model = PostResponse

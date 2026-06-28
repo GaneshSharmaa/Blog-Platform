@@ -36,12 +36,15 @@
     <!-- Metadata -->
     <div class="d-flex justify-content-between align-items-center mb-3">
 
-        <span class="badge bg-primary author-badge">
-            {{ post.author }}
-        </span>
+        <a
+            class="badge bg-primary author-badge text-decoration-none"
+            href="{{ url_for('user_posts', user_id = post.author.id) }}"
+        >
+            {{ post.author.username }}
+        </a>
 
         <small class="article-meta">
-            {{ post.date_posted }}
+            {{ post.date_posted.strftime('%B %d, %Y') }}
         </small>
 
     </div>

@@ -65,7 +65,7 @@ def post_page(
         title = post.title[:50]
         return templates.TemplateResponse(
             request = request,
-            name = post.html,
+            name = "post.html",
             context = {
                 "post": post,
                 "title": title

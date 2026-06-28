@@ -26,6 +26,11 @@ class PostBase(BaseModel):
 class PostCreate(PostBase):
     user_id: int    # TEMPORARY
 
+# creating a Pydantic model for updating a post
+class PostUpdate(BaseModel):
+    title: str | None = Field(default = None, min_length = 1, max_length = 100)
+    content: str | None = Field(default = None, min_length = 1)
+
 # creating a Pydantic model for validating a post response
 # inheriting the PostBase Pydantic model
 # and configuring to read the attributes, not by default JSON
@@ -36,3 +41,4 @@ class PostResponse(PostBase):
     user_id: int
     date_posted: datetime
     author: UserResponse
+

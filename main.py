@@ -303,6 +303,19 @@ def update_post_partial(
     db.refresh(post)
     return post
 
+@app.delete(path = "/api/posts/{post_id}", status_code = status.HTTP_204_NO_CONTENT)
+def delete_post(post_id: int, db: Annotated[Session, Depends(get_db)]):
+    result = db.execute(select(models.Post).where(models.Post.id == post_id))
+    post = result.scalars().first()
+    if not post:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = "Post not found"
+        )
+    
+    db.delete(post)
+    db.commit()
+
 # ------ GENERAL ERROR HANDLING ------
 # this handles the page not found exceptions
 @app.exception_handler(StarletteHTTPException)

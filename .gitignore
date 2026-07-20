@@ -3,4 +3,5 @@ pyproject.toml
 .env
 __pycache__
 uv.lock
-Ganesh_Sharmaa-profile-picture.jpg
+*.jpg
+!default.jpg

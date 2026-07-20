@@ -415,3 +415,18 @@ def create_post(post: PostCreate, db: Annotated[Session, Depends(get_db)]):
 
     return new_post
 
+# ---------- DELETE THE USER ----------
+@app.delete("/api/users/{user_id}", status_code = status.HTTP_204_NO_CONTENT)
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    statement = select(models.User).where(models.User.id == user_id)
+    user = db.execute(statement).scalars().first()
+
+    if not user:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = f"User with user ID {user_id} not found!"
+        )
+    
+    db.delete(user)
+    db.commit()
+

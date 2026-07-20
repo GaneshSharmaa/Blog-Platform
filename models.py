@@ -35,9 +35,14 @@ class User(Base):
 
     @property
     def image_path(self) -> str:
-        if self.image_file:
-            return f"/media/profile-picture/{self.image_file}"
-        return "/static/profile-picture/default.jpg"
+        if not self.image_file:
+            return "/media/profile-picture/you.jpg"
+
+        image_file = self.image_file.lstrip("/")
+        if image_file.startswith("profile-picture/"):
+            return f"/media/{image_file}"
+
+        return f"/media/profile-picture/{image_file}"
     
 class Post(Base):
     __tablename__ = "posts"

@@ -36,7 +36,7 @@ class User(Base):
     @property
     def image_path(self) -> str:
         if not self.image_file:
-            return "/media/profile-picture/you.jpg"
+            return "/media/profile-picture/default.jpg"
 
         image_file = self.image_file.lstrip("/")
         if image_file.startswith("profile-picture/"):

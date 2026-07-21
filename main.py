@@ -14,9 +14,9 @@ from sqlalchemy.orm import selectinload
 from typing import Annotated
 
 # importing local modules from other files
-# from schemas import PostCreate, PostResponse, PostUpdate, UserCreate, UserResponse, UserUpdate
 import models
 from database import Base, engine, get_db
+from routers import posts, users
 
 # creating database table
 @asynccontextmanager
@@ -46,6 +46,10 @@ app.mount(
 
 # creating a HTML template
 templates = Jinja2Templates(directory = "./templates")
+
+# creating users and posts routes
+app.include_router(users.router, prefix = "/api/users", tags = ["users"])
+app.include_router(posts.router, prefix = "/api/posts", tags = ["posts"])
 
 # -------- HOME PAGE -------- 
 @app.get("/", include_in_schema = False, name = "home")

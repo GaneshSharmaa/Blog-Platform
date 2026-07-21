@@ -1,21 +1,21 @@
 # importing modules
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 # database connection url
-SQLALCHEMY_DATABASE_URL = "sqlite:///./blog.db"
+SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./blog.db"
 
 # creating a connection to the database
-engine = create_engine(
+engine = create_async_engine(
     url = SQLALCHEMY_DATABASE_URL,
     connect_args = {"check_same_thread": False}
 )
 
 # creating a session — each request gets it own session
-SessionLocal = sessionmaker(
-    autoflush = False,
-    autocommit = False,
-    bind = engine
+AsyncSessionLocal = async_sessionmaker(
+    engine,
+    class_ = AsyncSession,
+    expire_on_commit = False
 )
 
 # 
@@ -23,6 +23,6 @@ class Base(DeclarativeBase):
     pass
 
 # function to provide a session to our routes
-def get_db():
-    with SessionLocal() as db:
-        yield db
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session

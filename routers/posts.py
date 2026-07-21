@@ -13,14 +13,14 @@ from schemas import PostCreate, PostResponse, PostUpdate
 router = APIRouter()
 
 # -------- GETTING LIST OF ALL POSTS --------
-@router.get("/api/posts", response_model = list[PostResponse])
+@router.get("", response_model = list[PostResponse])
 async def get_posts(db: Annotated[AsyncSession, Depends(get_db)]):
     result = await db.execute(select(models.Post))
     posts = result.scalars().all()
     return posts
 
 # --------- GETTING POST BY POST ID ---------
-@router.get("/api/posts/{post_id}", response_model = PostResponse)
+@router.get("/{post_id}", response_model = PostResponse)
 async def get_post(post_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
     result = await db.execute(select(models.Post).options(selectinload(models.Post.author)).where(models.Post.id == post_id))
     post = result.scalars().first()
@@ -33,7 +33,7 @@ async def get_post(post_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
 
 # -------- FULL UPDATE BY POST ID --------
 @router.put(
-    path = "/api/posts/{post_id}",
+    path = "/{post_id}",
     response_model = PostResponse
 )
 async def update_post_full(
@@ -67,7 +67,7 @@ async def update_post_full(
 
 # --------- PARTIAL UPDATE BY POST ID ---------
 @router.patch(
-    path = "/api/posts/{post_id}",
+    path = "/{post_id}",
     response_model = PostResponse
 )
 async def update_post_partial(
@@ -92,7 +92,7 @@ async def update_post_partial(
     return post
 
 # --------- DELETE POST BY POST ID ---------
-@router.delete(path = "/api/posts/{post_id}", status_code = status.HTTP_204_NO_CONTENT)
+@router.delete(path = "/{post_id}", status_code = status.HTTP_204_NO_CONTENT)
 async def delete_post(post_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
     result = await db.execute(select(models.Post).where(models.Post.id == post_id))
     post = result.scalars().first()
@@ -107,7 +107,7 @@ async def delete_post(post_id: int, db: Annotated[AsyncSession, Depends(get_db)]
 
 # ----------- CREATE A NEW POST -----------
 @router.post(
-    path = "/api/posts",
+    path = "",
     response_model = PostResponse,
     status_code = status.HTTP_201_CREATED
 )

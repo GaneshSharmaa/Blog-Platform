@@ -14,7 +14,7 @@ from sqlalchemy.orm import selectinload
 from typing import Annotated
 
 # importing local modules from other files
-from schemas import PostCreate, PostResponse, PostUpdate, UserCreate, UserResponse, UserUpdate
+# from schemas import PostCreate, PostResponse, PostUpdate, UserCreate, UserResponse, UserUpdate
 import models
 from database import Base, engine, get_db
 

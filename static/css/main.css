@@ -3,6 +3,17 @@
 body {
     background-color: #f4f6f9;
     font-family: system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
 }
 
 /* Navbar */

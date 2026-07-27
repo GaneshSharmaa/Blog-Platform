@@ -8,7 +8,7 @@ from sqlalchemy.orm import selectinload
 # importing local modules
 import models
 from database import get_db
-from schemas import PostResponse, UserCreate, UserResponse, UserUpdate
+from schemas import PostResponse, UserCreate, UserPrivate as UserResponse, UserUpdate
 
 router = APIRouter()
 

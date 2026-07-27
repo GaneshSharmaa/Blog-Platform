@@ -7,19 +7,25 @@ class UserBase(BaseModel):
     email: EmailStr = Field(max_length = 120)
 
 class UserCreate(UserBase):
-    pass
+    password: str = Field(min_length = 8)
 
-class UserResponse(UserBase):
+class UserPublic(BaseModel):
     model_config = ConfigDict(from_attributes = True)
-
+    username: str
     id: int
     image_file: str | None
     image_path: str
 
+class UserPrivate(UserPublic):
+    email: EmailStr
 class UserUpdate(BaseModel):
     username: str | None = Field(default = None, min_length = 1, max_length = 25)
     email: EmailStr | None = Field(default = None, max_length = 120)
     image_file: str | None = Field(default = None, min_length = 1, max_length = 200)
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
 # creating a base field validation Pydantic model
 class PostBase(BaseModel):
@@ -45,5 +51,5 @@ class PostResponse(PostBase):
     id: int
     user_id: int
     date_posted: datetime
-    author: UserResponse
+    author: UserPublic
 

@@ -134,6 +134,28 @@ async def user_posts_page(
         }
     )
 
+# ----------- LOGIN ROUTE -----------
+@app.get("/login", include_in_schema = False)
+async def login_page(request: Request):
+    return templates.TemplateResponse(
+        reuqest = request,
+        name = "login.html",
+        context = {
+            "title": "Login"
+        }
+    )
+
+# ----------- REGISTER ROUTE -----------
+@app.get("/register", include_in_schema = False)
+async def register_page(request: Request):
+    return templates.TemplateResponse(
+        request = request,
+        name = "register.html",
+        context = {
+            "title": "register"
+        }
+    )
+
 # ------ REQUEST VALIDATION ERROR HANDLING ------
 # this handles the wrong input type, missing data, validation failures
 @app.exception_handler(RequestValidationError)

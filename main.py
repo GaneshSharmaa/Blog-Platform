@@ -54,7 +54,7 @@ app.include_router(posts.router, prefix = "/api/posts", tags = ["posts"])
 # -------- HOME PAGE -------- 
 @app.get("/", include_in_schema = False, name = "home")
 @app.get("/posts", include_in_schema = False, name = "posts")
-async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
+async def home(request: Request, db: AsyncSession = Depends(get_db)):
     result = await db.execute(
         select(models.Post)
         .options(selectinload(models.Post.author))
@@ -75,7 +75,7 @@ async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
 async def post_page(
     request: Request,
     post_id: int,
-    db: Annotated[AsyncSession, Depends(get_db)]
+    db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(
         select(models.Post).options(selectinload(models.Post.author)).where(models.Post.id == post_id)
@@ -106,7 +106,7 @@ async def post_page(
 async def user_posts_page(
     request: Request,
     user_id: int,
-    db: Annotated[AsyncSession, Depends(get_db)]
+    db: AsyncSession = Depends(get_db)
 ):
     result = await db.execute(
         select(models.User)

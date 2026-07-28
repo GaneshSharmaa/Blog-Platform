@@ -152,7 +152,7 @@ async def register_page(request: Request):
         request = request,
         name = "register.html",
         context = {
-            "title": "register"
+            "title": "Register"
         }
     )
 

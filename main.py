@@ -156,6 +156,16 @@ async def register_page(request: Request):
         }
     )
 
+@app.get("/account", include_in_schema = False)
+async def account_page(request: Request):
+    return templates.TemplateResponse(
+        request = request,
+        name = "account.html",
+        context = {
+            "title": "Account"
+        }
+    )
+
 # ------ REQUEST VALIDATION ERROR HANDLING ------
 # this handles the wrong input type, missing data, validation failures
 @app.exception_handler(RequestValidationError)

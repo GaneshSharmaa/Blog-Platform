@@ -1,26 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<section class="hero-section text-center">
-    <div class="hero-eyebrow">Fresh feed</div>
-    <h1 class="hero-title">Latest Posts</h1>
-    <p class="hero-subtitle">Thoughts, ideas, and updates from the FastAPI blog community, presented in a calmer, more editorial layout.</p>
-    <div class="hero-stats">
-        <div class="stat-pill">
-            <strong>{{ posts|length }}</strong>
-            <span>Posts in the feed</span>
-        </div>
-        <div class="stat-pill">
-            <strong>Responsive</strong>
-            <span>Optimized for smaller screens</span>
-        </div>
-        <div class="stat-pill">
-            <strong>Refined</strong>
-            <span>Cleaner spacing and contrast</span>
-        </div>
-    </div>
-</section>
-
 {% for post in posts %}
 <article class="content-section">
     <div class="post-header d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">

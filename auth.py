@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Annotated
 
 # importing the local modules
 from config import settings
@@ -59,7 +60,7 @@ def verify_access_token(token: str) -> str | None:
         return payload.get("sub")
 
 # function to get current user by token
-async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)) -> models.User:
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[AsyncSession, Depends(get_db)]) -> models.User:
     user_id = verify_access_token(token)
 
     if user_id is None:
@@ -92,5 +93,5 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession
     return user
 
 # simplifying the use of information extraction from the token
-CurrentUser: models.User = Depends(get_current_user)
+CurrentUser: Annotated[models.User, Depends(get_current_user)]
 

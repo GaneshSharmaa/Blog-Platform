@@ -69,7 +69,10 @@ footer {
 }
 
 .page-shell {
-    position: relative;
+    max-width: 850px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .page-shell::after {
@@ -318,6 +321,10 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
+}
+
+.feed-main {
+    width: 100%;
 }
 
 .feed-grid {

@@ -79,9 +79,9 @@
                             <!-- Shown when logged out -->
                             <div id="loggedOutNav">
                                 <a class="btn btn-outline-light mb-2 mb-md-0 me-md-2"
-                                   href="{{ url_for("login_page") }}">Login</a>
+                                   href="{{ url_for('login_page') }}">Login</a>
                                 <a class="btn btn-light mb-2 mb-md-0 me-md-3"
-                                   href="{{ url_for("register_page") }}">Register</a>
+                                   href="{{ url_for('register_page') }}">Register</a>
                             </div>
                             <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle"
@@ -110,35 +110,10 @@
             </nav>
         </header>
         <main role="main" class="container page-shell">
-            <div class="feed-grid">
-                <section class="feed-main">
-                    {% block content %}
-                    {% endblock content %}
-                </section>
-                <aside class="feed-sidebar">
-                    {% block sidebar %}
-                        <div class="sidebar-card mb-4">
-                            <div class="section-eyebrow">About</div>
-                            <h3 class="h5 fw-bold mb-3">A cleaner reading experience</h3>
-                            <p class="text-body-secondary mb-0">Browse posts in a softer, more focused layout with richer spacing, better contrast, and a more polished theme.</p>
-                        </div>
-                        <div class="sidebar-card">
-                            <div class="section-eyebrow">Explore</div>
-                            <ul class="list-group list-group-flush sidebar-list">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Latest Posts <span class="badge badge-soft rounded-pill">Feed</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Announcements <span class="badge badge-soft rounded-pill">News</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Reading Mode <span class="badge badge-soft rounded-pill">Responsive</span>
-                                </li>
-                            </ul>
-                        </div>
-                    {% endblock sidebar %}
-                </aside>
-            </div>
+            <section class="feed-main">
+                {% block content %}
+                {% endblock %}
+            </section>
         </main>
         <footer class="mt-auto py-4 footer-shell">
             <div class="container text-center">

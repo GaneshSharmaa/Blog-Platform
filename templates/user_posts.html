@@ -1,91 +1,70 @@
 {% extends "layout.html" %}
 {% block content %}
+<section class="page-card">
+    <div class="d-flex align-items-center gap-4 flex-wrap mb-4">
+        <img
+            src="{{ user.image_path }}"
+            alt="{{ user.username }}"
+            class="author-avatar"
+        >
 
-<div class="container py-5">
-    <!-- User Information -->
-    <div class="card shadow-sm mb-5">
-        <div class="card-body d-flex align-items-center">
-            <img
-                src="{{ user.image_path }}"
-                alt="{{ user.username }}"
-                class="rounded-circle border me-4"
-                width="100"
-                height="100"
-            >
-
-            <div>
-                <h2 class="fw-bold mb-1">
-                    {{ user.username }}
-                </h2>
-
-                <p class="text-muted mb-1">
-                    {{ user.email }}
-                </p>
-
-                <span class="badge bg-primary">
-                    {{ posts|length }} Posts
-                </span>
-            </div>
+        <div>
+            <div class="section-eyebrow">Author profile</div>
+            <h1 class="page-title mb-2">{{ user.username }}</h1>
+            <p class="text-muted mb-2">{{ user.email }}</p>
+            <span class="badge badge-soft rounded-pill px-3 py-2">{{ posts|length }} Posts</span>
         </div>
     </div>
 
-    <!-- User Posts -->
     {% if posts %}
         {% for post in posts %}
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h3 class="card-title">
-                    {{ post.title }}
-                </h3>
-
-                <p class="text-muted mb-2">
-                    Posted on {{ post.date_posted.strftime("%B %d, %Y") }}
-                </p>
-
-                <p class="card-text">
-                    {{ post.content[:250] }}
-                    {% if post.content|length > 250 %}
-                        ...
-                    {% endif %}
-                </p>
-
-                <div class="d-flex gap-2 mt-3">
-                    <a
-                        href="{{ url_for('post_page', post_id=post.id) }}"
-                        class="btn btn-primary"
-                    >
-                        Read More
-                    </a>
-
-                    <a
-                        href="{{ url_for('update_post', post_id=post.id) }}"
-                        class="btn btn-warning"
-                    >
-                        Edit
-                    </a>
-
-                    <a
-                        href="{{ url_for('delete_post', post_id=post.id) }}"
-                        class="btn btn-danger"
-                    >
-                        Delete
-                    </a>
-                </div>
+        <article class="content-section">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                <small class="article-meta">Posted on {{ post.date_posted.strftime("%B %d, %Y") }}</small>
+                <span class="badge badge-soft rounded-pill">Read time</span>
             </div>
-        </div>
+
+            <h3 class="h4 fw-bold mb-3">
+                <a href="{{ url_for('post_page', post_id=post.id) }}" class="article-title stretched-link">{{ post.title }}</a>
+            </h3>
+
+            <p class="article-content mb-4">
+                {{ post.content[:250] }}
+                {% if post.content|length > 250 %}
+                    ...
+                {% endif %}
+            </p>
+
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{{ url_for('post_page', post_id=post.id) }}" class="btn btn-primary">Read More</a>
+                <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-outline-secondary">Edit</a>
+                <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-outline-danger">Delete</a>
+            </div>
+        </article>
         {% endfor %}
     {% else %}
-        <div class="alert alert-info text-center">
-            <h4 class="mb-2">
-                No posts yet
-            </h4>
-
-            <p class="mb-0">
-                {{ user.username }} hasn't published any posts.
-            </p>
+        <div class="empty-state">
+            <div class="section-eyebrow">Nothing here yet</div>
+            <h4 class="fw-bold mb-2">No posts yet</h4>
+            <p class="text-body-secondary mb-0">{{ user.username }} hasn't published any posts.</p>
         </div>
     {% endif %}
-</div>
+</section>
 {% endblock content %}
+
+{% block sidebar %}
+    <div class="sidebar-card mb-4">
+        <div class="section-eyebrow">Profile overview</div>
+        <h3 class="h5 fw-bold mb-3">A more polished author page</h3>
+        <p class="text-body-secondary mb-0">The author card now has better spacing, stronger hierarchy, and lighter action buttons for a cleaner reading flow.</p>
+    </div>
+    <div class="sidebar-card">
+        <div class="section-eyebrow">Actions</div>
+        <ul class="list-group list-group-flush sidebar-list">
+            <li class="list-group-item">View post archive</li>
+            <li class="list-group-item">Edit a draft</li>
+            <li class="list-group-item">Remove a post</li>
+        </ul>
+    </div>
+{% endblock sidebar %}
 

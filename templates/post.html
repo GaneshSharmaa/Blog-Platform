@@ -1,24 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="mb-4 d-flex justify-content-between align-items-center">
-    <a href="/" class="btn btn-outline-secondary">
-        ← Back to Posts
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <a href="/" class="btn btn-outline-secondary px-3">
+        ← Back to posts
     </a>
 
     <!-- Action Buttons -->
     <!-- Only show edit/delete options if user_id is 1 (TEMPORARY - until authentication) -->
     {% if post.user_id == 1 %}
-    <div class="post-actions mt-3 pt-3 border-top">
-    <button type="button"
-        class="btn btn-outline-secondary me-1"
-        data-bs-toggle="modal"
-        data-bs-target="#editModal">Edit Post</button>
-        
-        <button type="button"
-            class="btn btn-outline-danger"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteModal">Delete Post</button>
+        <div class="post-actions d-flex flex-wrap gap-2">
+            <button type="button"
+                class="btn btn-outline-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal">Edit Post</button>
+
+            <button type="button"
+                class="btn btn-outline-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal">Delete Post</button>
         </div>
     {% endif %}
 </div>
@@ -72,21 +72,16 @@
 
 <article class="content-section">
     <!-- Metadata -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <a
-            class="badge bg-primary author-badge text-decoration-none"
-            href="{{ url_for('user_posts', user_id = post.author.id) }}"
-        >
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <a class="badge badge-soft rounded-pill text-decoration-none px-3 py-2" href="{{ url_for('user_posts', user_id = post.author.id) }}">
             {{ post.author.username }}
         </a>
 
-        <small class="article-meta">
-            {{ post.date_posted.strftime('%B %d, %Y') }}
-        </small>
+        <small class="article-meta">{{ post.date_posted.strftime('%B %d, %Y') }}</small>
     </div>
 
     <!-- Title -->
-    <h1 class="fw-bold mb-4">
+    <h1 class="page-title mb-4">
         {{ post.title }}
     </h1>
 
@@ -125,6 +120,22 @@
 </div>
 
 {% endblock content %}
+
+{% block sidebar %}
+    <div class="sidebar-card mb-4">
+        <div class="section-eyebrow">Post details</div>
+        <h3 class="h5 fw-bold mb-3">A cleaner reading surface</h3>
+        <p class="text-body-secondary mb-0">This view now leans on spacing, a stronger content card, and a quieter sidebar so the article itself feels more prominent.</p>
+    </div>
+    <div class="sidebar-card">
+        <div class="section-eyebrow">Quick actions</div>
+        <ul class="list-group list-group-flush sidebar-list">
+            <li class="list-group-item">Author profile</li>
+            <li class="list-group-item">Post timestamp</li>
+            <li class="list-group-item">Edit and delete controls</li>
+        </ul>
+    </div>
+{% endblock sidebar %}
 
 ## Edit/Delete JavaScript
 {% block scripts %}

@@ -1,34 +1,20 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-<div class="text-center py-5">
-
-    <!-- Error Code -->
-    <h1
-        class="display-1 fw-bold text-danger"
-    >
-        {{ error_code }}
-    </h1>
-
-    <!-- Error Title -->
-    <h2 class="fw-bold mb-3">
-        {{ error_title }}
-    </h2>
-
-    <!-- Message -->
-    <p class="text-muted fs-5 mb-4">
-        {{ error_message }}
-    </p>
-
-    <!-- Back Button -->
-    <a
-        href="/"
-        class="btn btn-primary btn-lg"
-    >
-        Go Back Home
-    </a>
-
-</div>
+<section class="error-card">
+    <div class="section-eyebrow">Unexpected issue</div>
+    <h1 class="display-1 fw-bold mb-2 text-danger">{{ error_code }}</h1>
+    <h2 class="page-title mb-3">{{ error_title }}</h2>
+    <p class="text-muted fs-5 mb-4">{{ error_message }}</p>
+    <a href="/" class="btn btn-primary btn-lg px-4">Go Back Home</a>
+</section>
 
 {% endblock content %}
+
+{% block sidebar %}
+    <div class="sidebar-card">
+        <div class="section-eyebrow">Recovery</div>
+        <h3 class="h5 fw-bold mb-3">Something went wrong</h3>
+        <p class="text-body-secondary mb-0">Use the home button to return to the feed and continue browsing from there.</p>
+    </div>
+{% endblock sidebar %}

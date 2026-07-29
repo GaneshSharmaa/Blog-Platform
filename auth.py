@@ -59,7 +59,7 @@ def verify_access_token(token: str) -> str | None:
     else:
         return payload.get("sub")
 
-# function to get current user by token
+# function for user lookup using the authenticated bearer tokens for authorization
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[AsyncSession, Depends(get_db)]) -> models.User:
     user_id = verify_access_token(token)
 
@@ -93,5 +93,5 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: An
     return user
 
 # simplifying the use of information extraction from the token
-CurrentUser: Annotated[models.User, Depends(get_current_user)]
+CurrentUser = Annotated[models.User, Depends(get_current_user)]
 

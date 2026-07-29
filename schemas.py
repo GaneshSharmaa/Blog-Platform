@@ -35,7 +35,7 @@ class PostBase(BaseModel):
 # creating a Pydantic model for validating created post
 # inheriting the PostBase Pydantic model
 class PostCreate(PostBase):
-    user_id: int    # TEMPORARY
+    pass
 
 # creating a Pydantic model for updating a post
 class PostUpdate(BaseModel):

@@ -36,7 +36,6 @@ html {
 body {
     min-height: 100vh;
     display: flex;
-    padding-top: 3rem;
     flex-direction: column;
     font-family: "Nunito", "Montserrat", system-ui, sans-serif;
     color: var(--app-text);

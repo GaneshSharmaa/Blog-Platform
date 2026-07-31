@@ -44,13 +44,13 @@ class User(Base):
     @property
     def image_path(self) -> str:
         if not self.image_file:
-            return "/media/profile-picture/default.jpg"
+            return "/media/profile_pics/default.jpg"
 
         image_file = self.image_file.lstrip("/")
-        if image_file.startswith("profile-pics/"):
+        if image_file.startswith("profile_pics/"):
             return f"/media/{image_file}"
 
-        return f"/media/profile-pics/{image_file}"
+        return f"/media/profile_pics/{image_file}"
     
 class Post(Base):
     __tablename__ = "posts"

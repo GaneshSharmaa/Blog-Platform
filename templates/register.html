@@ -1,49 +1,49 @@
 {% extends "layout.html" %}
 {% block content %}
-  <section class="auth-card">
-    <div class="section-eyebrow">Join the community</div>
-    <h1 class="page-title">Register</h1>
-    <p class="text-body-secondary mb-4">Create your account to post, read, and manage your own profile.</p>
-    <form id="registerForm">
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required minlength="1" maxlength="50">
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required minlength="8">
-        <div class="form-text">Must be at least 8 characters.</div>
-      </div>
-      <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required minlength="8">
-        <div id="passwordError" class="text-danger d-none">Passwords do not match.</div>
-      </div>
-      <button type="submit" class="btn btn-primary px-4">Register</button>
-    </form>
-    <p class="mt-3 mb-0">
-      Already have an account? <a href="{{ url_for("login_page") }}">Login here</a>
-    </p>
-  </section>
+    <div class="content-section py-3 px-4 mb-4">
+        <h2 class="mb-4">Register</h2>
+        <form id="registerForm">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text"
+                       class="form-control"
+                       id="username"
+                       name="username"
+                       required
+                       minlength="1"
+                       maxlength="50">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       name="password"
+                       required
+                       minlength="8">
+                <div class="form-text">Must be at least 8 characters.</div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password"
+                       class="form-control"
+                       id="confirmPassword"
+                       name="confirmPassword"
+                       required
+                       minlength="8">
+                <div id="passwordError" class="text-danger d-none">Passwords do not match.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p class="mt-3">
+            Already have an account? <a href="{{ url_for("login_page") }}">Login here</a>
+        </p>
+    </div>
 {% endblock content %}
-
-{% block sidebar %}
-  <div class="auth-hero">
-    <div class="section-eyebrow">What you get</div>
-    <h2 class="h1 mb-3">A cleaner, more modern blog UI.</h2>
-    <p class="text-body-secondary mb-4">The redesigned layout uses stronger spacing, clearer hierarchy, and more intentional cards across the entire app.</p>
-    <ul class="list-group list-group-flush sidebar-list mb-4">
-      <li class="list-group-item">Responsive post cards</li>
-      <li class="list-group-item">Polished auth pages</li>
-      <li class="list-group-item">Theme-aware interface</li>
-    </ul>
-    <a class="btn btn-outline-light" href="{{ url_for("home") }}">Preview the feed</a>
-  </div>
-{% endblock sidebar %}
 {% block scripts %}
     <script type="module">
       import { getErrorMessage, showModal } from '/static/js/utils.js';
@@ -111,3 +111,4 @@
       });
     </script>
 {% endblock scripts %}
+

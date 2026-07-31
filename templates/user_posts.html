@@ -1,70 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
-<section class="page-card">
-    <div class="d-flex align-items-center gap-4 flex-wrap mb-4">
-        <img
-            src="{{ user.image_path }}"
-            alt="{{ user.username }}"
-            class="author-avatar"
-        >
-
-        <div>
-            <div class="section-eyebrow">Author profile</div>
-            <h1 class="page-title mb-2">{{ user.username }}</h1>
-            <p class="text-muted mb-2">{{ user.email }}</p>
-            <span class="badge badge-soft rounded-pill px-3 py-2">{{ posts|length }} Posts</span>
-        </div>
-    </div>
-
-    {% if posts %}
-        {% for post in posts %}
-        <article class="content-section">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
-                <small class="article-meta">Posted on {{ post.date_posted.strftime("%B %d, %Y") }}</small>
-                <span class="badge badge-soft rounded-pill">Read time</span>
-            </div>
-
-            <h3 class="h4 fw-bold mb-3">
-                <a href="{{ url_for('post_page', post_id=post.id) }}" class="article-title stretched-link">{{ post.title }}</a>
-            </h3>
-
-            <p class="article-content mb-4">
-                {{ post.content[:250] }}
-                {% if post.content|length > 250 %}
-                    ...
-                {% endif %}
-            </p>
-
-            <div class="d-flex gap-2 flex-wrap">
-                <a href="{{ url_for('post_page', post_id=post.id) }}" class="btn btn-primary">Read More</a>
-                <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-outline-secondary">Edit</a>
-                <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-outline-danger">Delete</a>
+    <h1 class="mb-4">Posts by {{ user.username }}</h1>
+    {% for post in posts %}
+        <article class="content-section py-3 px-4 mb-4">
+            <div class="d-flex align-items-start gap-4">
+                <img class="rounded-circle article-img flex-shrink-0"
+                     src="{{ post.author.image_path }}"
+                     alt="{{ post.author.username }}'s profile picture"
+                     width="64"
+                     height="64"
+                     loading="lazy">
+                <div class="flex-grow-1">
+                    <div class="article-metadata mb-2">
+                        <a class="me-2"
+                           href="{{ url_for('user_posts', user_id=post.author.id) }}">{{ post.author.username }}</a>
+                        <small class="text-body-secondary">{{ post.date_posted.strftime("%B %d, %Y") }}</small>
+                    </div>
+                    <h2>
+                        <a class="article-title"
+                           href="{{ url_for('post_page', post_id=post.id) }}">{{ post.title }}</a>
+                    </h2>
+                    <p class="article-content">{{ post.content }}</p>
+                </div>
             </div>
         </article>
-        {% endfor %}
     {% else %}
-        <div class="empty-state">
-            <div class="section-eyebrow">Nothing here yet</div>
-            <h4 class="fw-bold mb-2">No posts yet</h4>
-            <p class="text-body-secondary mb-0">{{ user.username }} hasn't published any posts.</p>
-        </div>
-    {% endif %}
-</section>
+        <p class="text-body-secondary">No posts by this user yet.</p>
+    {% endfor %}
 {% endblock content %}
-
-{% block sidebar %}
-    <div class="sidebar-card mb-4">
-        <div class="section-eyebrow">Profile overview</div>
-        <h3 class="h5 fw-bold mb-3">A more polished author page</h3>
-        <p class="text-body-secondary mb-0">The author card now has better spacing, stronger hierarchy, and lighter action buttons for a cleaner reading flow.</p>
-    </div>
-    <div class="sidebar-card">
-        <div class="section-eyebrow">Actions</div>
-        <ul class="list-group list-group-flush sidebar-list">
-            <li class="list-group-item">View post archive</li>
-            <li class="list-group-item">Edit a draft</li>
-            <li class="list-group-item">Remove a post</li>
-        </ul>
-    </div>
-{% endblock sidebar %}
 

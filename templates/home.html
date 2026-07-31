@@ -1,57 +1,28 @@
 {% extends "layout.html" %}
-
 {% block content %}
-{% for post in posts %}
-<article class="content-section">
-    <div class="post-header d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
-        <div class="d-flex align-items-center gap-3">
-            <img
-                src="{{ post.author.image_path }}"
-                alt="{{ post.author.username }}'s avatar"
-                class="post-avatar"
-            >
-
-            <div class="post-meta-stack">
-                <a class="post-author-link" href="{{ url_for('user_posts', user_id = post.author.id) }}">{{ post.author.username }}</a>
-                <small class="article-meta">{{ post.date_posted.strftime('%B %d, %Y') }}</small>
+    {% for post in posts %}
+        <article class="content-section py-3 px-4 mb-4">
+            <div class="d-flex align-items-start gap-4">
+                <img class="rounded-circle article-img flex-shrink-0"
+                     src="{{ post.author.image_path }}"
+                     alt="{{ post.author.username }}'s profile picture"
+                     width="64"
+                     height="64"
+                     loading="lazy">
+                <div class="flex-grow-1">
+                    <div class="article-metadata mb-2">
+                        <a class="me-2"
+                           href="{{ url_for("user_posts", user_id=post.author.id) }}">{{ post.author.username }}</a>
+                        <small class="text-body-secondary">{{ post.date_posted.strftime("%B %d, %Y") }}</small>
+                    </div>
+                    <h2>
+                        <a class="article-title"
+                           href="{{ url_for("post_page", post_id=post.id) }}">{{ post.title }}</a>
+                    </h2>
+                    <p class="article-content">{{ post.content }}</p>
+                </div>
             </div>
-        </div>
-
-        <span class="badge badge-soft rounded-pill">Article</span>
-    </div>
-
-    <h2 class="h3 fw-bold mb-3">
-        <a href="{{ url_for('post_page', post_id = post.id) }}" class="article-title stretched-link">
-            {{ post.title }}
-        </a>
-    </h2>
-
-    <p class="article-content mb-0">
-        {{ post.content }}
-    </p>
-</article>
-{% endfor %}
+        </article>
+    {% endfor %}
 {% endblock content %}
-
-{% block sidebar %}
-    <div class="sidebar-card mb-4">
-        <div class="section-eyebrow">Why this feed feels better</div>
-        <h3 class="h5 fw-bold mb-3">Focused reading, stronger hierarchy</h3>
-        <p class="text-body-secondary mb-0">The homepage now uses larger cards, better spacing, and a calmer color palette so the posts themselves do the visual work.</p>
-    </div>
-    <div class="sidebar-card">
-        <div class="section-eyebrow">Quick notes</div>
-        <ul class="list-group list-group-flush sidebar-list">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Faster scanning <span class="badge badge-soft rounded-pill">Typography</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Clearer actions <span class="badge badge-soft rounded-pill">UI</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Better contrast <span class="badge badge-soft rounded-pill">Theme</span>
-            </li>
-        </ul>
-    </div>
-{% endblock sidebar %}
 

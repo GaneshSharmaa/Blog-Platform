@@ -47,10 +47,10 @@ class User(Base):
             return "/media/profile-picture/default.jpg"
 
         image_file = self.image_file.lstrip("/")
-        if image_file.startswith("profile-picture/"):
+        if image_file.startswith("profile-pics/"):
             return f"/media/{image_file}"
 
-        return f"/media/profile-picture/{image_file}"
+        return f"/media/profile-pics/{image_file}"
     
 class Post(Base):
     __tablename__ = "posts"

@@ -1,6 +1,6 @@
 # importing required modules
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, Query
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -12,7 +12,7 @@ from starlette.concurrency import run_in_threadpool
 # importing local modules
 import models
 from database import get_db
-from schemas import PostResponse, UserCreate, UserPrivate, UserPublic, UserUpdate, Token
+from schemas import PostResponse, UserCreate, UserPrivate, UserPublic, UserUpdate, Token, PaginatedPostsResponse
 from auth import CurrentUser, create_access_token, hash_password, verify_password
 from config import settings
 from image_utils import delete_profile_image, process_profile_image
@@ -124,7 +124,9 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
 )
 async def get_user_posts(
     user_id: int,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    skip: Annotated[int, Query(ge = 0)] = 0,
+    limit: Annotated[int, Query(ge = 1, le = 100)] = 10
 ):
     result = await db.execute(
         select(models.User)
@@ -139,15 +141,34 @@ async def get_user_posts(
             detail = "User not found"
         )
 
+    count_result = await db.execute(
+        select(func.count())
+        .select_from(models.Post)
+        .where(models.Post.user_id == user_id)
+    )
+
+    total = count_result.scalar() or 0
+
     result = await db.execute(
         select(models.Post)
         .options(selectinload(models.Post.author))
         .where(models.Post.user_id == user_id)
         .order_by(models.Post.date_posted.desc())
+        .offset(skip)
+        .limit(limit)
     )
 
     posts = result.scalars().all()
-    return posts
+
+    has_more = skip + len(posts) < total
+
+    return PaginatedPostsResponse(
+        posts = [PostResponse.model_validate(post) for post in posts],
+        total = total,
+        skip = skip,
+        limit = limit,
+        has_more = has_more
+    )
 
 # ------ PARTIALLY UPDATING USER INFORMATION ------
 @router.patch(path = "/{user_id}", response_model = UserPrivate)

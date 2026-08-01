@@ -5,3 +5,6 @@ __pycache__
 uv.lock
 *.jpg
 !default.jpg
+populate_db.py
+populate_images
+blog.db

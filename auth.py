@@ -7,6 +7,8 @@ from fastapi import Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Annotated
+import hashlib
+import secrets
 
 # importing the local modules
 from config import settings
@@ -26,6 +28,12 @@ def hash_password(password: str) -> str:
 # function to verify the entered password
 def verify_password(password: str, hashed_password: str) -> bool:
     return password_hash.verify(password, hashed_password)
+
+def generate_reset_token() -> str:
+    return secrets.token_urlsafe(32)
+
+def hash_reset_token(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
 
 # function to create the access token for JWT authentication
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:

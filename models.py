@@ -97,7 +97,7 @@ class PasswordResetToken(Base):
         index = True
     )
     user_id: Mapped[int] = mapped_column(
-        ForeignKey("user_id"),
+        ForeignKey("users.id"),
         nullable = False
     )
     token_hash: Mapped[str] = mapped_column(

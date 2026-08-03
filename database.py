@@ -1,6 +1,6 @@
 # importing modules
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import DeclarativeBase
 
 # database connection url
 SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./blog.db"
